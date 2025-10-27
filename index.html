@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Simple HTML Page</title>
+    <style>
+      body {
+        background-color: black;
+        color: white;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+      }
+
+      .animation-container {
+        position: fixed;
+        left: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 200px;
+        height: 200px;
+      }
+
+      .spinning-image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        opacity: 0;
+        animation: fadeInOut 1.6s infinite;
+      }
+
+      .spinning-image:nth-child(1) {
+        animation-delay: 0s;
+      }
+      .spinning-image:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+      .spinning-image:nth-child(3) {
+        animation-delay: 0.4s;
+      }
+      .spinning-image:nth-child(4) {
+        animation-delay: 0.6s;
+      }
+      .spinning-image:nth-child(5) {
+        animation-delay: 0.8s;
+      }
+      .spinning-image:nth-child(6) {
+        animation-delay: 1s;
+      }
+      .spinning-image:nth-child(7) {
+        animation-delay: 1.2s;
+      }
+      .spinning-image:nth-child(8) {
+        animation-delay: 1.4s;
+      }
+
+      @keyframes fadeInOut {
+        0%,
+        12.5% {
+          opacity: 1;
+        }
+        12.5%,
+        100% {
+          opacity: 0;
+        }
+      }
+
+      .content {
+        margin-left: 250px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="animation-container">
+      <img src="amitco_1.png" alt="Spinning lady 1" class="spinning-image" />
+      <img src="amitco_2.png" alt="Spinning lady 2" class="spinning-image" />
+      <img src="amitco_3.png" alt="Spinning lady 3" class="spinning-image" />
+      <img src="amitco_4.png" alt="Spinning lady 4" class="spinning-image" />
+      <img src="amitco_5.png" alt="Spinning lady 5" class="spinning-image" />
+      <img src="amitco_6.png" alt="Spinning lady 6" class="spinning-image" />
+      <img src="amitco_7.png" alt="Spinning lady 7" class="spinning-image" />
+      <img src="amitco_8.png" alt="Spinning lady 8" class="spinning-image" />
+    </div>
+
+    <div class="content">
+      <h1>Welcome to my page</h1>
+      <p>This is a simple HTML page with a black background.</p>
+    </div>
+  </body>
+</html>
