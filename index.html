@@ -18,11 +18,20 @@
 
       .animation-container {
         position: fixed;
-        left: 20px;
+        left: 200px;
         top: 50%;
         transform: translateY(-50%);
-        width: 200px;
-        height: 200px;
+        width: 400px;
+        height: 400px;
+      }
+
+      .animation-container-right {
+        position: fixed;
+        right: 200px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 400px;
+        height: 400px;
       }
 
       .spinning-image {
@@ -33,7 +42,8 @@
         height: 100%;
         object-fit: contain;
         opacity: 0;
-        animation: fadeInOut 1.6s infinite;
+        animation: instantSwitch 1.6s infinite;
+        animation-timing-function: steps(1, end);
       }
 
       .spinning-image:nth-child(1) {
@@ -61,7 +71,7 @@
         animation-delay: 1.4s;
       }
 
-      @keyframes fadeInOut {
+      @keyframes instantSwitch {
         0%,
         12.5% {
           opacity: 1;
@@ -73,25 +83,101 @@
       }
 
       .content {
-        margin-left: 250px;
+        margin-left: 650px;
+        margin-right: 650px;
       }
     </style>
   </head>
   <body>
     <div class="animation-container">
-      <img src="amitco_1.png" alt="Spinning lady 1" class="spinning-image" />
-      <img src="amitco_2.png" alt="Spinning lady 2" class="spinning-image" />
-      <img src="amitco_3.png" alt="Spinning lady 3" class="spinning-image" />
-      <img src="amitco_4.png" alt="Spinning lady 4" class="spinning-image" />
-      <img src="amitco_5.png" alt="Spinning lady 5" class="spinning-image" />
-      <img src="amitco_6.png" alt="Spinning lady 6" class="spinning-image" />
-      <img src="amitco_7.png" alt="Spinning lady 7" class="spinning-image" />
-      <img src="amitco_8.png" alt="Spinning lady 8" class="spinning-image" />
+      <img
+        src="assets/spinning-ladies/amitco/amitco_1.png"
+        alt="Spinning lady 1"
+        class="spinning-image"
+      />
+      <img
+        src="assets/spinning-ladies/amitco/amitco_2.png"
+        alt="Spinning lady 2"
+        class="spinning-image"
+      />
+      <img
+        src="assets/spinning-ladies/amitco/amitco_3.png"
+        alt="Spinning lady 3"
+        class="spinning-image"
+      />
+      <img
+        src="assets/spinning-ladies/amitco/amitco_4.png"
+        alt="Spinning lady 4"
+        class="spinning-image"
+      />
+      <img
+        src="assets/spinning-ladies/amitco/amitco_5.png"
+        alt="Spinning lady 5"
+        class="spinning-image"
+      />
+      <img
+        src="assets/spinning-ladies/amitco/amitco_6.png"
+        alt="Spinning lady 6"
+        class="spinning-image"
+      />
+      <img
+        src="assets/spinning-ladies/amitco/amitco_7.png"
+        alt="Spinning lady 7"
+        class="spinning-image"
+      />
+      <img
+        src="assets/spinning-ladies/amitco/amitco_8.png"
+        alt="Spinning lady 8"
+        class="spinning-image"
+      />
     </div>
 
-    <div class="content">
-      <h1>Welcome to my page</h1>
-      <p>This is a simple HTML page with a black background.</p>
+    <div class="animation-container-right">
+      <img
+        src="assets/spinning-ladies/Daph/Daph2_8.png"
+        alt="Daph 1"
+        class="spinning-image"
+      />
+      <img
+        src="assets/spinning-ladies/Daph/Daph2_7.png"
+        alt="Daph 2"
+        class="spinning-image"
+      />
+      <img
+        src="assets/spinning-ladies/Daph/Daph2_6.png"
+        alt="Daph 3"
+        class="spinning-image"
+      />
+      <img
+        src="assets/spinning-ladies/Daph/Daph2_5.png"
+        alt="Daph 4"
+        class="spinning-image"
+      />
+      <img
+        src="assets/spinning-ladies/Daph/Daph2_4.png"
+        alt="Daph 5"
+        class="spinning-image"
+      />
+      <img
+        src="assets/spinning-ladies/Daph/Daph2_3.png"
+        alt="Daph 6"
+        class="spinning-image"
+      />
+      <img
+        src="assets/spinning-ladies/Daph/Daph2_2.png"
+        alt="Daph 7"
+        class="spinning-image"
+      />
+      <img
+        src="assets/spinning-ladies/Daph/Daph2_1.png"
+        alt="Daph 8"
+        class="spinning-image"
+      />
+    </div>
+
+    <div class="content text-center">
+      <h1>Amitco~Daph</h1>
+      <p>Creative coding duo.</p>
     </div>
   </body>
 </html>
