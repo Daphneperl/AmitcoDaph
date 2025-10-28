@@ -7,6 +7,10 @@
     <style>
       body {
         background-color: black;
+        background-image: url("assets/bckg.jpg");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
         color: white;
         font-family: Arial, sans-serif;
         margin: 0;
@@ -14,6 +18,35 @@
         min-height: 100vh;
         display: flex;
         align-items: center;
+        position: relative;
+      }
+
+      body::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: black;
+        opacity: 0.7;
+        z-index: -1;
+      }
+
+      body::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(
+          ellipse at center,
+          transparent 0%,
+          rgba(0, 0, 0, 0.4) 70%,
+          rgba(0, 0, 0, 0.8) 100%
+        );
+        z-index: -1;
       }
 
       .animation-container {
@@ -134,42 +167,42 @@
 
     <div class="animation-container-right">
       <img
-        src="assets/spinning-ladies/Daph/Daph2_8.png"
+        src="assets/spinning-ladies/Daph/Daph2_1.png"
         alt="Daph 1"
         class="spinning-image"
       />
       <img
-        src="assets/spinning-ladies/Daph/Daph2_7.png"
+        src="assets/spinning-ladies/Daph/Daph2_2.png"
         alt="Daph 2"
         class="spinning-image"
       />
       <img
-        src="assets/spinning-ladies/Daph/Daph2_6.png"
+        src="assets/spinning-ladies/Daph/Daph2_3.png"
         alt="Daph 3"
         class="spinning-image"
       />
       <img
-        src="assets/spinning-ladies/Daph/Daph2_5.png"
+        src="assets/spinning-ladies/Daph/Daph2_4.png"
         alt="Daph 4"
         class="spinning-image"
       />
       <img
-        src="assets/spinning-ladies/Daph/Daph2_4.png"
+        src="assets/spinning-ladies/Daph/Daph2_5.png"
         alt="Daph 5"
         class="spinning-image"
       />
       <img
-        src="assets/spinning-ladies/Daph/Daph2_3.png"
+        src="assets/spinning-ladies/Daph/Daph2_6.png"
         alt="Daph 6"
         class="spinning-image"
       />
       <img
-        src="assets/spinning-ladies/Daph/Daph2_2.png"
+        src="assets/spinning-ladies/Daph/Daph2_7.png"
         alt="Daph 7"
         class="spinning-image"
       />
       <img
-        src="assets/spinning-ladies/Daph/Daph2_1.png"
+        src="assets/spinning-ladies/Daph/Daph2_8.png"
         alt="Daph 8"
         class="spinning-image"
       />
