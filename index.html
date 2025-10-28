@@ -116,50 +116,54 @@
       }
 
       .content {
-        margin-left: 650px;
-        margin-right: 650px;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        z-index: 10;
       }
     </style>
   </head>
   <body>
     <div class="animation-container">
       <img
-        src="assets/spinning-ladies/amitco/amitco_1.png"
+        src="assets/spinning-ladies/amitco/amitco_5.png"
         alt="Spinning lady 1"
         class="spinning-image"
       />
       <img
-        src="assets/spinning-ladies/amitco/amitco_2.png"
+        src="assets/spinning-ladies/amitco/amitco_6.png"
         alt="Spinning lady 2"
         class="spinning-image"
       />
       <img
-        src="assets/spinning-ladies/amitco/amitco_3.png"
+        src="assets/spinning-ladies/amitco/amitco_7.png"
         alt="Spinning lady 3"
         class="spinning-image"
       />
       <img
-        src="assets/spinning-ladies/amitco/amitco_4.png"
+        src="assets/spinning-ladies/amitco/amitco_8.png"
         alt="Spinning lady 4"
         class="spinning-image"
       />
       <img
-        src="assets/spinning-ladies/amitco/amitco_5.png"
+        src="assets/spinning-ladies/amitco/amitco_1.png"
         alt="Spinning lady 5"
         class="spinning-image"
       />
       <img
-        src="assets/spinning-ladies/amitco/amitco_6.png"
+        src="assets/spinning-ladies/amitco/amitco_2.png"
         alt="Spinning lady 6"
         class="spinning-image"
       />
       <img
-        src="assets/spinning-ladies/amitco/amitco_7.png"
+        src="assets/spinning-ladies/amitco/amitco_3.png"
         alt="Spinning lady 7"
         class="spinning-image"
       />
       <img
-        src="assets/spinning-ladies/amitco/amitco_8.png"
+        src="assets/spinning-ladies/amitco/amitco_4.png"
         alt="Spinning lady 8"
         class="spinning-image"
       />
@@ -212,5 +216,63 @@
       <h1>Amitco~Daph</h1>
       <p>Creative coding duo.</p>
     </div>
+
+    <script>
+      // Preload all images before starting animation
+      const imageUrls = [
+        "assets/spinning-ladies/amitco/amitco_1.png",
+        "assets/spinning-ladies/amitco/amitco_2.png",
+        "assets/spinning-ladies/amitco/amitco_3.png",
+        "assets/spinning-ladies/amitco/amitco_4.png",
+        "assets/spinning-ladies/amitco/amitco_5.png",
+        "assets/spinning-ladies/amitco/amitco_6.png",
+        "assets/spinning-ladies/amitco/amitco_7.png",
+        "assets/spinning-ladies/amitco/amitco_8.png",
+        "assets/spinning-ladies/Daph/Daph2_1.png",
+        "assets/spinning-ladies/Daph/Daph2_2.png",
+        "assets/spinning-ladies/Daph/Daph2_3.png",
+        "assets/spinning-ladies/Daph/Daph2_4.png",
+        "assets/spinning-ladies/Daph/Daph2_5.png",
+        "assets/spinning-ladies/Daph/Daph2_6.png",
+        "assets/spinning-ladies/Daph/Daph2_7.png",
+        "assets/spinning-ladies/Daph/Daph2_8.png",
+      ];
+
+      let loadedImages = 0;
+      const totalImages = imageUrls.length;
+
+      function preloadImages() {
+        return new Promise((resolve) => {
+          imageUrls.forEach((url) => {
+            const img = new Image();
+            img.onload = () => {
+              loadedImages++;
+              if (loadedImages === totalImages) {
+                resolve();
+              }
+            };
+            img.onerror = () => {
+              loadedImages++;
+              if (loadedImages === totalImages) {
+                resolve();
+              }
+            };
+            img.src = url;
+          });
+        });
+      }
+
+      // Start animation after all images are loaded
+      preloadImages().then(() => {
+        // Add a small delay to ensure smooth start
+        setTimeout(() => {
+          document.body.style.opacity = "1";
+        }, 100);
+      });
+
+      // Initially hide the body while loading
+      document.body.style.opacity = "0";
+      document.body.style.transition = "opacity 0.5s ease-in-out";
+    </script>
   </body>
 </html>
