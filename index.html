@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&family=Source+Code+Pro:wght@400;600;700&family=Anonymous+Pro:wght@400;700&display=swap"
       rel="stylesheet"
     />
     <style>
@@ -71,6 +71,7 @@
         transform: translate(-95%, -50%);
         width: 400px;
         height: 400px;
+        transition: all 1.5s linear;
       }
 
       .animation-container-right {
@@ -80,6 +81,24 @@
         transform: translate(-5%, -50%);
         width: 400px;
         height: 400px;
+        transition: all 1.5s linear;
+      }
+
+      /* Move to bottom corners on first scroll */
+      body.moved-to-corners .animation-container {
+        left: 12%;
+        top: 80%;
+        transform: translate(-50%, -50%);
+        width: 250px;
+        height: 250px;
+      }
+
+      body.moved-to-corners .animation-container-right {
+        left: 88%;
+        top: 80%;
+        transform: translate(-50%, -50%);
+        width: 250px;
+        height: 250px;
       }
 
       .spinning-image {
@@ -92,6 +111,26 @@
         opacity: 0;
         animation: instantSwitch 1.6s infinite;
         animation-timing-function: steps(1, end);
+        animation-play-state: paused;
+      }
+
+      /* Before scrolling: hide ALL frames first */
+      body:not(.scrolling) .spinning-image {
+        opacity: 0 !important;
+        animation-play-state: paused;
+      }
+
+      /* Before scrolling: show ONLY the specific 4th frames */
+      body:not(.scrolling) .animation-container .spinning-image:nth-child(8),
+      body:not(.scrolling) .animation-container-right .spinning-image:nth-child(4) {
+        opacity: 1 !important;
+        animation-play-state: paused;
+      }
+
+      /* When scrolling starts, run normal animation for all frames */
+      body.scrolling .spinning-image {
+        opacity: 0;
+        animation-play-state: running;
       }
 
       .spinning-image:nth-child(1) {
@@ -139,72 +178,207 @@
         z-index: 10;
       }
 
-      .glass-title-container {
-        position: relative;
-        cursor: pointer;
+      .experiment-title {
         outline: none;
-        width: 400px;
-        height: 120px;
-        border-radius: 999px;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        background: linear-gradient(
-          135deg,
-          rgba(255, 255, 255, 0.15) 0%,
-          rgba(255, 255, 255, 0.05) 50%,
-          rgba(255, 255, 255, 0.02) 100%
-        );
-        backdrop-filter: url(#glass) blur(10px);
-        -webkit-backdrop-filter: url(#glass) blur(10px);
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3),
-          inset 0 1px 0 rgba(255, 255, 255, 0.1);
-        transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 2.2);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 20px;
-      }
-
-      .glass-title-container:hover {
-        transform: scale(1.05);
-      }
-
-      .glass-title-container h1 {
-        font-family: "Orbitron", sans-serif;
+        font-size: 4rem;
+        text-align: center;
+        font-family: "Source Code Pro", monospace;
         color: white;
-        font-size: 2.2rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.15em;
         margin: 0;
-        text-shadow: 0 0 10px rgba(255, 255, 255, 0.5),
-          0 0 20px rgba(255, 255, 255, 0.3), 0 2px 4px rgba(0, 0, 0, 0.3);
-        filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.2));
+        padding: 20px 0;
+        animation: cray 6s infinite steps(50);
+        display: inline-block;
+        letter-spacing: 0.1em;
       }
+
+      .experiment-title * {
+        animation: cray 6s infinite steps(50);
+        display: inline-block;
+      }
+
+      @keyframes cray {
+        0% { font-weight: 400; font-style: normal; text-decoration: none; text-transform: uppercase; }
+        2% { font-weight: 700; font-style: italic; text-decoration: underline; text-transform: lowercase; }
+        4% { font-weight: 200; font-style: normal; text-decoration: line-through; text-transform: capitalize; }
+        6% { font-weight: 600; font-style: normal; text-decoration: none; text-transform: none; }
+        8% { font-weight: 300; font-style: italic; text-decoration: underline; text-transform: uppercase; }
+        10% { font-weight: 500; font-style: normal; text-decoration: none; text-transform: lowercase; }
+        12% { font-weight: 700; font-style: normal; text-decoration: line-through; text-transform: capitalize; }
+        14% { font-weight: 400; font-style: italic; text-decoration: none; text-transform: none; }
+        16% { font-weight: 600; font-style: normal; text-decoration: underline; text-transform: uppercase; }
+        18% { font-weight: 200; font-style: normal; text-decoration: none; text-transform: lowercase; }
+        20% { font-weight: 700; font-style: italic; text-decoration: line-through; text-transform: capitalize; }
+        22% { font-weight: 300; font-style: normal; text-decoration: none; text-transform: none; }
+        24% { font-weight: 500; font-style: normal; text-decoration: underline; text-transform: uppercase; }
+        26% { font-weight: 400; font-style: italic; text-decoration: none; text-transform: lowercase; }
+        28% { font-weight: 600; font-style: normal; text-decoration: line-through; text-transform: capitalize; }
+        30% { font-weight: 700; font-style: normal; text-decoration: none; text-transform: none; }
+        32% { font-weight: 200; font-style: italic; text-decoration: underline; text-transform: uppercase; }
+        34% { font-weight: 500; font-style: normal; text-decoration: none; text-transform: lowercase; }
+        36% { font-weight: 300; font-style: normal; text-decoration: line-through; text-transform: capitalize; }
+        38% { font-weight: 600; font-style: italic; text-decoration: none; text-transform: none; }
+        40% { font-weight: 400; font-style: normal; text-decoration: underline; text-transform: uppercase; }
+        42% { font-weight: 700; font-style: normal; text-decoration: none; text-transform: lowercase; }
+        44% { font-weight: 200; font-style: italic; text-decoration: line-through; text-transform: capitalize; }
+        46% { font-weight: 500; font-style: normal; text-decoration: none; text-transform: none; }
+        48% { font-weight: 300; font-style: normal; text-decoration: underline; text-transform: uppercase; }
+        50% { font-weight: 600; font-style: italic; text-decoration: none; text-transform: lowercase; }
+        52% { font-weight: 700; font-style: normal; text-decoration: line-through; text-transform: capitalize; }
+        54% { font-weight: 400; font-style: normal; text-decoration: none; text-transform: none; }
+        56% { font-weight: 200; font-style: italic; text-decoration: underline; text-transform: uppercase; }
+        58% { font-weight: 500; font-style: normal; text-decoration: none; text-transform: lowercase; }
+        60% { font-weight: 300; font-style: normal; text-decoration: line-through; text-transform: capitalize; }
+        62% { font-weight: 600; font-style: italic; text-decoration: none; text-transform: none; }
+        64% { font-weight: 700; font-style: normal; text-decoration: underline; text-transform: uppercase; }
+        66% { font-weight: 400; font-style: normal; text-decoration: none; text-transform: lowercase; }
+        68% { font-weight: 200; font-style: italic; text-decoration: line-through; text-transform: capitalize; }
+        70% { font-weight: 500; font-style: normal; text-decoration: none; text-transform: none; }
+        72% { font-weight: 300; font-style: normal; text-decoration: underline; text-transform: uppercase; }
+        74% { font-weight: 600; font-style: italic; text-decoration: none; text-transform: lowercase; }
+        76% { font-weight: 700; font-style: normal; text-decoration: line-through; text-transform: capitalize; }
+        78% { font-weight: 400; font-style: normal; text-decoration: none; text-transform: none; }
+        80% { font-weight: 200; font-style: italic; text-decoration: underline; text-transform: uppercase; }
+        82% { font-weight: 500; font-style: normal; text-decoration: none; text-transform: lowercase; }
+        84% { font-weight: 300; font-style: normal; text-decoration: line-through; text-transform: capitalize; }
+        86% { font-weight: 600; font-style: italic; text-decoration: none; text-transform: none; }
+        88% { font-weight: 700; font-style: normal; text-decoration: underline; text-transform: uppercase; }
+        90% { font-weight: 400; font-style: normal; text-decoration: none; text-transform: lowercase; }
+        92% { font-weight: 200; font-style: italic; text-decoration: line-through; text-transform: capitalize; }
+        94% { font-weight: 500; font-style: normal; text-decoration: none; text-transform: none; }
+        96% { font-weight: 300; font-style: normal; text-decoration: underline; text-transform: uppercase; }
+        98% { font-weight: 600; font-style: italic; text-decoration: none; text-transform: lowercase; }
+        100% { font-weight: 400; font-style: normal; text-decoration: none; text-transform: uppercase; }
+      }
+
+      .content p {
+        font-family: "Source Code Pro", monospace;
+        font-weight: 400;
+      }
+
+      /* Typewriter Animation for Creative coding duo */
+      .cursor {
+        position: relative;
+        width: 18em;
+        margin: 0 auto;
+        border-right: 2px solid rgba(255,255,255,.75);
+        font-size: 1.2rem;
+        font-family: 'Anonymous Pro', monospace;
+        text-align: center;
+        white-space: nowrap;
+        overflow: hidden;
+        margin-top: 10px;
+      }
+
+      .typewriter-animation {
+        animation: 
+          typewriter 3s steps(18) 0.5s 1 normal both, 
+          blinkingCursor 500ms steps(50) infinite normal;
+      }
+
+      @keyframes typewriter {
+        from { width: 0; }
+        to { width: 100%; }
+      }
+
+      @keyframes blinkingCursor{
+        from { border-right-color: rgba(255,255,255,.75); }
+        to { border-right-color: transparent; }
+      }
+
+      /* Character labels above figures */
+      .character-labels {
+        position: fixed;
+        z-index: 15;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .amitco-labels {
+        left: 12%;
+        top: 55%;
+        transform: translate(-50%, -50%);
+      }
+
+      .daph-labels {
+        left: 88%;
+        top: 55%;
+        transform: translate(-50%, -50%);
+      }
+
+      .character-label {
+        font-family: 'Anonymous Pro', monospace;
+        font-size: 1rem;
+        color: white;
+        opacity: 0;
+        visibility: hidden;
+        white-space: nowrap;
+        margin-bottom: 8px;
+        text-align: center;
+        transition: opacity 0.5s ease, visibility 0s linear 0.5s;
+      }
+
+      /* Show labels only when figures move to corners - with delay */
+      body.moved-to-corners .character-label {
+        opacity: 1;
+        visibility: visible;
+        transition: opacity 0.5s ease 1.5s, visibility 0s linear 1.5s;
+      }
+
+      /* Hide labels immediately when scrolling back up */
+      body:not(.moved-to-corners) .character-label {
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+      }
+
+      /* Simple navigation menu */
+      .navigation-titles {
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 15;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 40px;
+      }
+
+      .nav-section {
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.5s ease, visibility 0s linear 0.5s;
+      }
+
+      .nav-title {
+        font-family: 'Anonymous Pro', monospace;
+        font-size: 1.8rem;
+        color: white;
+        text-align: center;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        white-space: nowrap;
+      }
+
+      /* Show navigation titles when figures move to corners - with delay */
+      body.moved-to-corners .nav-section {
+        opacity: 1;
+        visibility: visible;
+        transition: opacity 0.5s ease 1.5s, visibility 0s linear 1.5s;
+      }
+
+      /* Hide navigation titles immediately when scrolling back up */
+      body:not(.moved-to-corners) .nav-section {
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+      }
+
     </style>
   </head>
   <body>
     <div class="fixed-background"></div>
-    <svg style="position: absolute; width: 0; height: 0">
-      <filter
-        id="glass"
-        x="-50%"
-        y="-50%"
-        width="200%"
-        height="200%"
-        primitiveUnits="objectBoundingBox"
-      >
-        <feImage x="-50%" y="-50%" width="200%" height="200%" result="map" />
-        <feGaussianBlur in="SourceGraphic" stdDeviation="0.01" result="blur" />
-        <feDisplacementMap
-          id="disp"
-          in="blur"
-          in2="map"
-          scale="0.3"
-          xChannelSelector="R"
-          yChannelSelector="G"
-        ></feDisplacementMap>
-      </filter>
-    </svg>
     <div class="animation-container">
       <img
         src="assets/spinning-ladies/amitco/amitco_5.png"
@@ -291,12 +465,40 @@
       />
     </div>
 
-    <div class="content text-center">
-      <div class="glass-title-container">
-        <h1>Amitco~Daph</h1>
-      </div>
-      <p>Creative coding duo.</p>
+    <!-- Character labels that appear on scroll -->
+    <div class="character-labels amitco-labels">
+      <div class="character-label amitco-line1">Designer</div>
+      <div class="character-label amitco-line2">Animator</div>
+      <div class="character-label amitco-line3">Creative web developer</div>
     </div>
+    <div class="character-labels daph-labels">
+      <div class="character-label daph-line1">Designer</div>
+      <div class="character-label daph-line2">Scientific Illustrator</div>
+      <div class="character-label daph-line3">Creative web developer</div>
+    </div>
+
+    <!-- Navigation titles that appear in center on scroll -->
+    <div class="navigation-titles">
+      <div class="nav-section">
+        <div class="nav-title">About</div>
+      </div>
+      
+      <div class="nav-section">
+        <div class="nav-title">Projects</div>
+      </div>
+      
+      <div class="nav-section">
+        <div class="nav-title">Playground</div>
+      </div>
+    </div>
+
+    <div class="content text-center">
+      <h1 class="experiment-title">Amitco~Daph</h1>
+      <div class="cursor typewriter-animation">Creative coding duo.</div>
+    </div>
+
+    <!-- Scrollable content to enable scroll detection -->
+    <div style="position: relative; z-index: 1; background: transparent; height: 200vh;"></div>
 
     <script>
       // Preload all images before starting animation
@@ -355,19 +557,59 @@
       document.body.style.opacity = "0";
       document.body.style.transition = "opacity 0.5s ease-in-out";
 
-      // Load displacement map for glass effect
-      const feImage = document.querySelector("feImage");
-      fetch("https://essykings.github.io/JavaScript/map.png")
-        .then((response) => {
-          return response.blob();
-        })
-        .then((blob) => {
-          const objURL = URL.createObjectURL(blob);
-          feImage.setAttribute("href", objURL);
-        })
-        .catch((error) => {
-          console.log("Could not load displacement map:", error);
-        });
+
+      // Reset to starting point on page load/refresh
+      function resetToStartingPoint() {
+        // Remove all scroll-related classes
+        document.body.classList.remove('scrolling');
+        document.body.classList.remove('moved-to-corners');
+        
+        // Reset scroll position to top
+        window.scrollTo(0, 0);
+        
+        // Reset scroll flags
+        hasStartedSpinning = false;
+      }
+
+      // Bidirectional scroll detection - figures move based on scroll position
+      let hasStartedSpinning = false;
+      const scrollThreshold = 100;
+
+      function handleScroll() {
+        const scrollY = window.scrollY;
+        
+        // Start spinning animation once and keep it forever
+        if (!hasStartedSpinning && scrollY > 50) {
+          document.body.classList.add('scrolling');
+          hasStartedSpinning = true;
+        }
+        
+        // Move to corners when scrolling down, return to center when scrolling up
+        if (scrollY > scrollThreshold) {
+          // Scrolled down - move to corners
+          document.body.classList.add('moved-to-corners');
+        } else {
+          // Scrolled up - return to center
+          document.body.classList.remove('moved-to-corners');
+        }
+      }
+
+      // Reset on page load/refresh
+      window.addEventListener('load', resetToStartingPoint);
+      window.addEventListener('beforeunload', () => {
+        // Ensure we return to top on refresh
+        window.scrollTo(0, 0);
+      });
+
+      // Also reset immediately when script runs
+      resetToStartingPoint();
+
+      // Add scroll event listener
+      window.addEventListener('scroll', handleScroll, { passive: true });
+
+      // Also trigger on touch/wheel events for better responsiveness
+      window.addEventListener('wheel', handleScroll, { passive: true });
+      window.addEventListener('touchmove', handleScroll, { passive: true });
     </script>
   </body>
 </html>
