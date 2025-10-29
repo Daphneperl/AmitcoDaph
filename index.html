@@ -262,7 +262,7 @@
         margin: 0 auto;
         border-right: 2px solid rgba(255,255,255,.75);
         font-size: 1.2rem;
-        font-family: 'Anonymous Pro', monospace;
+        font-family: 'Source Code Pro', monospace;
         text-align: center;
         white-space: nowrap;
         overflow: hidden;
@@ -307,7 +307,7 @@
       }
 
       .character-label {
-        font-family: 'Anonymous Pro', monospace;
+        font-family: 'Source Code Pro', monospace;
         font-size: 1rem;
         color: white;
         opacity: 0;
@@ -332,7 +332,7 @@
         transition: opacity 0.3s ease, visibility 0s linear 0.3s;
       }
 
-      /* Simple navigation menu */
+      /* Navigation buttons */
       .navigation-titles {
         position: fixed;
         left: 50%;
@@ -342,38 +342,368 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 40px;
+        gap: 20px;
       }
 
-      .nav-section {
+      .nav-button {
+        padding: 0.75rem 1rem;
+        font-family: 'Source Code Pro', monospace;
+        font-size: 1rem;
+        text-transform: uppercase;
+        position: relative;
+        border: 0;
+        line-height: 1;
+        cursor: pointer;
+        background: color-mix(in oklch, white, black 4%);
+        color: color-mix(in oklch, black, transparent 25%);
+        transition-property: background, color;
+        transition-duration: 0.26s;
+        transition-timing-function: ease-out;
         opacity: 0;
         visibility: hidden;
         transition: opacity 0.5s ease, visibility 0s linear 0.5s;
       }
 
-      .nav-title {
-        font-family: 'Anonymous Pro', monospace;
-        font-size: 1.8rem;
-        color: white;
-        text-align: center;
-        font-weight: 600;
-        letter-spacing: 0.05em;
-        white-space: nowrap;
+      .nav-button:focus-visible {
+        outline: color-mix(in oklch, black, transparent) dashed 1px;
+        outline-offset: .5rem;
+      }
+      
+      .nav-button:is(:focus-visible, :hover) {
+        color: black;
+        background: color-mix(in oklch, white, black 10%);
+
+        .corners span:nth-of-type(even) {
+          transform: translateY(100cqh);
+        }
+        .corners span:nth-of-type(odd) {
+          transform: translateX(100cqi);
+        }
+        .corners span {
+          transition: transform 0.26s 0.12s ease-out;
+          svg {
+            rotate: 360deg;
+            transition: rotate 0.26s 0.12s ease-out;
+          }
+        }
       }
 
-      /* Show navigation titles when figures move to corners - with delay */
-      body.moved-to-corners .nav-section {
+      .corners {
+        container-type: size;
+        pointer-events: none;
+        position: absolute;
+        inset: 0;
+        z-index: 3;
+
+        span {
+          width: 10px;
+          height: 10px;
+          display: grid;
+          place-items: center;
+          offset-path: border-box;
+
+          svg {
+            width: 100%;
+          }
+
+          &:nth-of-type(1) {
+            offset-distance: 0;
+          }
+          &:nth-of-type(2) {
+            offset-distance: 100cqi;
+          }
+          &:nth-of-type(3) {
+            offset-rotate: 180deg;
+            offset-distance: calc(100cqi + 100cqh);
+          }
+          &:nth-of-type(4) {
+            offset-rotate: 180deg;
+            offset-distance: -100cqh;
+          }
+        }
+      }
+
+
+      /* Show navigation buttons when figures move to corners - with delay after adjectives */
+      body.moved-to-corners .nav-button {
         opacity: 1;
         visibility: visible;
-        transition: opacity 0.5s ease 1.5s, visibility 0s linear 1.5s;
+        transition: opacity 0.5s ease 2.5s, visibility 0s linear 2.5s;
       }
 
-      /* Hide navigation titles immediately when scrolling back up */
-      body:not(.moved-to-corners) .nav-section {
+      /* Hide navigation buttons immediately when scrolling back up */
+      body:not(.moved-to-corners) .nav-button {
         opacity: 0;
         visibility: hidden;
         transition: opacity 0.3s ease, visibility 0s linear 0.3s;
       }
+
+      /* Modal styles */
+      .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+      }
+
+      .modal-overlay.active {
+        opacity: 1;
+        visibility: visible;
+        transition: opacity 0.3s ease, visibility 0s linear 0s;
+      }
+
+      .modal-content {
+        background: white;
+        padding: 2rem;
+        border-radius: 8px;
+        max-width: 600px;
+        width: 90%;
+        max-height: 80vh;
+        overflow-y: auto;
+        position: relative;
+        transform: scale(0.8);
+        transition: transform 0.3s ease;
+      }
+
+      .modal-overlay.active .modal-content {
+        transform: scale(1);
+      }
+
+      .modal-close {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background: none;
+        border: none;
+        font-size: 2rem;
+        cursor: pointer;
+        color: #666;
+        line-height: 1;
+        padding: 0;
+        width: 2rem;
+        height: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .modal-close:hover {
+        color: #000;
+      }
+
+      .modal-text {
+        font-family: 'Source Code Pro', monospace;
+        font-size: 0.85rem;
+        line-height: 1.5;
+        color: #333;
+        margin-top: 1rem;
+      }
+
+      .modal-text p {
+        margin-bottom: 1rem;
+      }
+
+      .modal-text p:last-child {
+        margin-bottom: 0;
+      }
+
+      .contact-section {
+        margin-top: 1.5rem;
+        padding-top: 1rem;
+        border-top: 1px solid #eee;
+      }
+
+      .contact-header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1rem;
+      }
+
+      .contact-section h3 {
+        font-family: 'Source Code Pro', monospace;
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin: 0;
+        color: #333;
+        flex-shrink: 0;
+      }
+
+      .ascii-art {
+        font-family: 'Source Code Pro', monospace;
+        font-size: 0.5rem;
+        line-height: 1;
+        color: #666;
+        white-space: pre;
+        overflow-x: auto;
+        flex-shrink: 0;
+      }
+
+      .contact-items {
+        display: flex;
+        gap: 2rem;
+        flex-wrap: wrap;
+      }
+
+      .contact-item {
+        flex: 1;
+        min-width: 200px;
+        font-family: 'Source Code Pro', monospace;
+        font-size: 0.8rem;
+        line-height: 1.4;
+      }
+
+      .contact-item strong {
+        color: #333;
+        font-weight: 600;
+      }
+
+      .contact-item a {
+        color: #666;
+        text-decoration: none;
+        transition: color 0.2s ease;
+      }
+
+      .contact-item a:hover {
+        color: #000;
+        text-decoration: underline;
+      }
+
+      /* Playground modal styles */
+      .playground-modal {
+        background: white;
+        min-height: 300px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .coming-soon {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 2rem;
+      }
+
+      .text-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .key {
+        font-family: 'Source Code Pro', monospace;
+        font-weight: 900;
+        font-size: 4rem;
+        display: inline-block;
+        letter-spacing: -0.2rem;
+        color: #333;
+        transition: transform 0.2s;
+      }
+
+      .key-space {
+        display: inline-block;
+        width: 0.5rem;
+      }
+
+      .coming-soon .ascii-art {
+        font-family: 'Source Code Pro', monospace;
+        font-size: 0.6rem;
+        line-height: 1.2;
+        color: #666;
+        text-align: center;
+        white-space: pre;
+        margin: 0;
+      }
+
+      @keyframes pressDown1 {
+        30%, 40%, 100% { transform: translateY(0); }
+        35% { transform: translateY(8px); }
+      }
+
+      @keyframes pressDown2 {
+        70%, 80%, 100% { transform: translateY(0); }
+        75% { transform: translateY(8px); }
+      }
+
+      @keyframes pressDown3 {
+        30%, 40%, 100% { transform: translateY(0); }
+        35% { transform: translateY(8px); }
+      }
+
+      @keyframes pressDown4 {
+        40%, 50%, 100% { transform: translateY(0); }
+        45% { transform: translateY(8px); }
+      }
+
+      @keyframes pressDown5 {
+        20%, 30%, 100% { transform: translateY(0); }
+        25% { transform: translateY(8px); }
+      }
+
+      @keyframes pressDown6 {
+        60%, 70%, 100% { transform: translateY(0); }
+        65% { transform: translateY(8px); }
+      }
+
+      @keyframes pressDown7 {
+        10%, 20%, 100% { transform: translateY(0); }
+        15% { transform: translateY(8px); }
+      }
+
+      @keyframes pressDown8 {
+        35%, 45%, 100% { transform: translateY(0); }
+        40% { transform: translateY(8px); }
+      }
+
+      @keyframes pressDown9 {
+        50%, 60%, 100% { transform: translateY(0); }
+        55% { transform: translateY(8px); }
+      }
+
+      @keyframes pressDown10 {
+        25%, 35%, 100% { transform: translateY(0); }
+        30% { transform: translateY(8px); }
+      }
+
+      @keyframes pressDown11 {
+        65%, 75%, 100% { transform: translateY(0); }
+        70% { transform: translateY(8px); }
+      }
+
+      @keyframes pressDown12 {
+        45%, 55%, 100% { transform: translateY(0); }
+        50% { transform: translateY(8px); }
+      }
+
+      @keyframes pressDown13 {
+        15%, 25%, 100% { transform: translateY(0); }
+        20% { transform: translateY(8px); }
+      }
+
+      .key:nth-child(1) { animation: pressDown1 2s infinite; }
+      .key:nth-child(2) { animation: pressDown2 3s infinite; }
+      .key:nth-child(3) { animation: pressDown3 4s infinite; }
+      .key:nth-child(4) { animation: pressDown4 2.5s infinite; }
+      .key:nth-child(5) { animation: pressDown5 2.5s infinite; }
+      .key:nth-child(6) { animation: pressDown6 3.5s infinite; }
+      .key:nth-child(8) { animation: pressDown7 2.2s infinite; }
+      .key:nth-child(9) { animation: pressDown8 3.2s infinite; }
+      .key:nth-child(10) { animation: pressDown9 2.8s infinite; }
+      .key:nth-child(11) { animation: pressDown10 3.8s infinite; }
+      .key:nth-child(12) { animation: pressDown11 2.1s infinite; }
+      .key:nth-child(13) { animation: pressDown12 3.1s infinite; }
+      .key:nth-child(14) { animation: pressDown13 2.7s infinite; }
 
     </style>
   </head>
@@ -477,18 +807,264 @@
       <div class="character-label daph-line3">Creative web developer</div>
     </div>
 
-    <!-- Navigation titles that appear in center on scroll -->
+    <!-- Navigation buttons that appear in center on scroll -->
     <div class="navigation-titles">
-      <div class="nav-section">
-        <div class="nav-title">About</div>
-      </div>
+      <button class="nav-button" aria-label="About">
+        <span class="corners">
+          <span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M5 12h14"></path>
+              <path d="M12 5v14"></path>
+            </svg>
+          </span>
+          <span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M5 12h14"></path>
+              <path d="M12 5v14"></path>
+            </svg>
+          </span>
+          <span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M5 12h14"></path>
+              <path d="M12 5v14"></path>
+            </svg>
+          </span>
+          <span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M5 12h14"></path>
+              <path d="M12 5v14"></path>
+            </svg>
+          </span>
+        </span>
+        <span>About</span>
+      </button>
       
-      <div class="nav-section">
-        <div class="nav-title">Projects</div>
-      </div>
+      <button class="nav-button" aria-label="Projects">
+        <span class="corners">
+          <span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M5 12h14"></path>
+              <path d="M12 5v14"></path>
+            </svg>
+          </span>
+          <span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M5 12h14"></path>
+              <path d="M12 5v14"></path>
+            </svg>
+          </span>
+          <span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M5 12h14"></path>
+              <path d="M12 5v14"></path>
+            </svg>
+          </span>
+          <span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M5 12h14"></path>
+              <path d="M12 5v14"></path>
+            </svg>
+          </span>
+        </span>
+        <span>Projects</span>
+      </button>
       
-      <div class="nav-section">
-        <div class="nav-title">Playground</div>
+      <button class="nav-button" aria-label="Playground">
+        <span class="corners">
+          <span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M5 12h14"></path>
+              <path d="M12 5v14"></path>
+            </svg>
+          </span>
+          <span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M5 12h14"></path>
+              <path d="M12 5v14"></path>
+            </svg>
+          </span>
+          <span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M5 12h14"></path>
+              <path d="M12 5v14"></path>
+            </svg>
+          </span>
+          <span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M5 12h14"></path>
+              <path d="M12 5v14"></path>
+            </svg>
+          </span>
+        </span>
+        <span>Playground</span>
+      </button>
+    </div>
+
+    <!-- Playground Modal -->
+    <div class="modal-overlay" id="playgroundModal">
+      <div class="modal-content playground-modal">
+        <button class="modal-close" id="closePlaygroundModal">&times;</button>
+        <div class="coming-soon">
+          <div class="text-container">
+            <span class="key">C</span>
+            <span class="key">o</span>
+            <span class="key">m</span>
+            <span class="key">i</span>
+            <span class="key">n</span>
+            <span class="key">g</span>
+            <span class="key-space"> </span>
+            <span class="key">s</span>
+            <span class="key">o</span>
+            <span class="key">o</span>
+            <span class="key">n</span>
+            <span class="key">.</span>
+            <span class="key">.</span>
+            <span class="key">.</span>
+          </div>
+          <div class="ascii-art">o__         __o        ,__o        __o           __o
+ ,>/_       -\<,      _-\_<,       _`\<,_       _ \<_
+(*)`(*).....O/ O.....(*)/'(*).....(*)/ (*).....(_)/(_)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- About Modal -->
+    <div class="modal-overlay" id="aboutModal">
+      <div class="modal-content">
+        <button class="modal-close" id="closeModal">&times;</button>
+        <div class="modal-text">
+          <p>We're Amit Cohen and Daphne Perlman – a creative coding duo designing experimental environments for imperfect creativity.</p>
+          <p>We met during our Master's in Design for Technological Environments, where we discovered a shared fascination with systems, stories, and the beauty of digital flaws.</p>
+          <p>With backgrounds in animation (Amit) and science and biology (Daphne), our work blends research, aesthetic exploration, and user experience design to craft journeys that feel both emotional and procedural.</p>
+          <p>We create spaces that echo the nostalgia of the early internet, celebrate glitches and defects, and invite users to wander through fragile, living digital ecosystems.</p>
+          
+          <div class="contact-section">
+            <div class="contact-header">
+              <h3>Contact us</h3>
+              <div class="ascii-art">
+      _________
+    .`.        `.
+   /   \ .======.\
+   |   | |______||
+   |   |   _____ |
+   |   |  /    / |
+   |   | /____/  |
+   | _ |         |
+   |/ \|.-"```"-.|
+   `` |||      |||
+     `"`      `"
+              </div>
+            </div>
+            <div class="contact-items">
+              <div class="contact-item">
+                <strong>Amit Cohen</strong><br>
+                <a href="mailto:amitco1989@gmail.com">amitco1989@gmail.com</a><br>
+                <a href="https://www.instagram.com/amit___co?igsh=MTVrYWI4NTNweThrZQ%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer">@amit___co</a>
+              </div>
+              <div class="contact-item">
+                <strong>Daphne Perlman</strong><br>
+                <a href="mailto:daphneperlman@gmail.com">daphneperlman@gmail.com</a><br>
+                <a href="https://www.instagram.com/daphneperlman?igsh=ajNuZzg3M29uMDg1" target="_blank" rel="noopener noreferrer">@daphneperlman</a>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -588,6 +1164,8 @@
         if (scrollY > scrollThreshold) {
           // Scrolled down - move to corners
           document.body.classList.add('moved-to-corners');
+          
+          // Navigation buttons will appear automatically via CSS transition
         } else {
           // Scrolled up - return to center
           document.body.classList.remove('moved-to-corners');
@@ -610,6 +1188,60 @@
       // Also trigger on touch/wheel events for better responsiveness
       window.addEventListener('wheel', handleScroll, { passive: true });
       window.addEventListener('touchmove', handleScroll, { passive: true });
+
+      // Modal functionality
+      const aboutButton = document.querySelector('.nav-button[aria-label="About"]');
+      const modal = document.getElementById('aboutModal');
+      const closeModal = document.getElementById('closeModal');
+
+      aboutButton.addEventListener('click', () => {
+        modal.classList.add('active');
+      });
+
+      closeModal.addEventListener('click', () => {
+        modal.classList.remove('active');
+      });
+
+      // Close modal when clicking outside
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.classList.remove('active');
+        }
+      });
+
+      // Close modal with Escape key
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('active')) {
+          modal.classList.remove('active');
+        }
+      });
+
+      // Playground modal functionality
+      const playgroundButton = document.querySelector('.nav-button[aria-label="Playground"]');
+      const playgroundModal = document.getElementById('playgroundModal');
+      const closePlaygroundModal = document.getElementById('closePlaygroundModal');
+
+      playgroundButton.addEventListener('click', () => {
+        playgroundModal.classList.add('active');
+      });
+
+      closePlaygroundModal.addEventListener('click', () => {
+        playgroundModal.classList.remove('active');
+      });
+
+      // Close modal when clicking outside
+      playgroundModal.addEventListener('click', (e) => {
+        if (e.target === playgroundModal) {
+          playgroundModal.classList.remove('active');
+        }
+      });
+
+      // Close modal with Escape key
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && playgroundModal.classList.contains('active')) {
+          playgroundModal.classList.remove('active');
+        }
+      });
     </script>
   </body>
 </html>
