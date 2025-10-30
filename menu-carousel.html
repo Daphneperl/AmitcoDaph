@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Menu Carousel (Stack)</title>
+<style>
+$t: .8s;
+
+@property --p { syntax: '<number>'; initial-value: 0; inherits: true }
+@property --v { syntax: '<number>'; initial-value: 0; inherits: true }
+
+* { margin: 0 }
+html, body, section, article, button { display: grid }
+html { min-height: 100% }
+/* Lock page scroll so only carousel steps */
+body { background: #070410; place-items: center; overflow: hidden }
+
+section {
+  --p: var(--k);
+  --abs-p: abs(var(--k) - var(--p));
+  --end: clamp(0, var(--abs-p) - 1, 1);
+  --dir: calc((1 - 2*var(--end))*sign(var(--k) - var(--p)));
+  --fwd: calc(.5*(1 + var(--dir)));
+  --v: var(--k);
+  --abs-v: abs(var(--v) - var(--p));
+  --prg: calc(var(--abs-v)/(1 - var(--end) + var(--end)*(var(--n) - 1)));
+  grid-gap: 1.25em 0;
+  grid-template: auto auto / 1fr;
+  place-self: center;
+  justify-items: center;
+  color: #f1f5f9;
+  font: 1em poppins, sans-serif;
+  counter-reset: k calc(1 + var(--k)) n var(--n);
+  transition: --p 0s $t, --v $t;
+  /* enable subtle 3D flip */
+  perspective: 900px;
+}
+
+section::before, em, h2 { display: none }
+
+@supports not (scale: Abs(-2)) {
+  section { --abs-p: max(var(--k) - var(--p), var(--p) - var(--k)); --abs-v: max(var(--v) - var(--p), var(--p) - var(--v)) }
+}
+@supports not (scale: Sign(-2)) { section { --dir: clamp(-1, (var(--k) - var(--p))*100000, 1) } }
+
+article {
+  --abs-top: abs(var(--k) - var(--i));
+  --not-top: min(1, var(--abs-top));
+  --top: calc(1 - var(--not-top));
+  --val-mov: ((1 - var(--fwd))*var(--p) + var(--fwd)*var(--k) - var(--i));
+  --abs-mov: abs(var(--val-mov));
+  --not-mov: min(1, var(--abs-mov));
+  --mov: calc(1 - var(--not-mov));
+  grid-area: 1 / 1;
+  grid-template: subgrid / subgrid;
+  z-index: mod(calc(var(--n) - 1 + var(--i) - var(--k)), var(--n));
+  transition: z-index $t cubic-bezier(1, -.9, 0, 1.9)
+}
+
+@supports not (scale: Abs(-2)) {
+  article { --abs-top: max(var(--k) - var(--i), var(--i) - var(--k)); --abs-mov: max(var(--val-mov), -1*var(--val-mov)) }
+}
+
+h2, em { opacity: 0 }
+
+img {
+  --sin: sin(var(--prg)*.5turn);
+  /* components for transform */
+  --tx: calc(-150%*var(--mov)*sqrt(var(--sin)));
+  --r2d: calc((1 - var(--sin))*var(--a));
+  --ry: calc(var(--dir) * var(--mov) * var(--sin) * 18deg);
+  grid-area: 1 / 1 / -1 / -1;
+  border: none;
+  height: 18em;
+  aspect-ratio: 1;
+  object-fit: contain;
+  border-radius: .75em;
+  /* subtle flip + slide */
+  transform: translate(var(--tx)) rotate(var(--r2d)) rotateY(var(--ry));
+  filter: blur(calc(var(--not-top) * 4px));
+  opacity: calc(1 - var(--not-top) * .35);
+  transition: filter $t, opacity $t, transform $t;
+}
+
+/* hover vibration on the top card only */
+article:hover img { animation: vibrate .35s linear 1 }
+
+@keyframes vibrate {
+  0% { transform: translate(var(--tx)) rotate(var(--r2d)) rotateY(var(--ry)) }
+  10% { transform: translate(calc(var(--tx) + 1px)) rotate(calc(var(--r2d) + .2deg)) rotateY(var(--ry)) }
+  20% { transform: translate(calc(var(--tx) - 1px)) rotate(calc(var(--r2d) - .2deg)) rotateY(var(--ry)) }
+  30% { transform: translate(calc(var(--tx) + 1px)) rotate(calc(var(--r2d) + .2deg)) rotateY(var(--ry)) }
+  40% { transform: translate(calc(var(--tx) - 1px)) rotate(calc(var(--r2d) - .2deg)) rotateY(var(--ry)) }
+  50% { transform: translate(calc(var(--tx) + .5px)) rotate(var(--r2d)) rotateY(var(--ry)) }
+  60% { transform: translate(calc(var(--tx) - .5px)) rotate(var(--r2d)) rotateY(var(--ry)) }
+  70% { transform: translate(calc(var(--tx) + .5px)) rotate(var(--r2d)) rotateY(var(--ry)) }
+  80% { transform: translate(calc(var(--tx) - .5px)) rotate(var(--r2d)) rotateY(var(--ry)) }
+  90% { transform: translate(var(--tx)) rotate(var(--r2d)) rotateY(var(--ry)) }
+  100%{ transform: translate(var(--tx)) rotate(var(--r2d)) rotateY(var(--ry)) }
+}
+
+/* hide arrows (we switch to scroll) */
+div { display: none }
+
+button { display: none }
+</style>
+</head>
+<body>
+<section style="--n: 3; --k: 0">
+  <article style="--i:0; --a: -6deg">
+    <h2>About</h2>
+    <em>Overview</em>
+    <img src="assets/About_label.png" alt="About card">
+  </article>
+  <article style="--i:1; --a: 8deg">
+    <h2>Projects</h2>
+    <em>Selected work</em>
+    <img src="assets/Projects_label.png" alt="Projects card">
+  </article>
+  <article style="--i:2; --a: -4deg">
+    <h2>Playground</h2>
+    <em>Experiments</em>
+    <img src="assets/Playground_label.png" alt="Playground card">
+  </article>
+  <div>
+    <button aria-label="previous" data-inc="-1"></button>
+    <button aria-label="next" data-inc="1"></button>
+  </div>
+</section>
+<script>
+const S = document.querySelector('section').style;
+const N = +S.getPropertyValue('--n');
+let k = +S.getPropertyValue('--k');
+const step = (inc) => { S.setProperty('--k', k = ((k + inc + N) % N)); };
+// keyboard fallback
+addEventListener('keydown', (e)=>{
+  const key = e.key.toLowerCase();
+  if (key==='arrowright' || key==='arrowdown' || key==='pagedown' || key===' ') step(1);
+  if (key==='arrowleft'  || key==='arrowup'   || key==='pageup') step(-1);
+});
+// single-step scroll (wheel) with cooldown; prevent page scroll when stepping
+let wheelAccum = 0, cool = false; const WTH = 40, COOLDOWN = 700;
+addEventListener('wheel', (e)=>{
+  if (cool) { e.preventDefault(); wheelAccum = 0; return; }
+  wheelAccum += e.deltaY;
+  if (wheelAccum > WTH) { step(1); wheelAccum = 0; cool = true; e.preventDefault(); setTimeout(()=>cool=false, COOLDOWN); }
+  else if (wheelAccum < -WTH) { step(-1); wheelAccum = 0; cool = true; e.preventDefault(); setTimeout(()=>cool=false, COOLDOWN); }
+}, { passive: false });
+// touch swipe with cooldown; prevent default when stepping
+let ts = null, acc = 0; const TTH = 45;
+addEventListener('touchstart', (e)=>{ ts = e.touches[0].clientY; acc = 0; }, { passive: false });
+addEventListener('touchmove', (e)=>{
+  if (ts==null) return;
+  if (cool) { e.preventDefault(); acc = 0; return; }
+  acc += ts - e.touches[0].clientY; ts = e.touches[0].clientY;
+  if (acc > TTH) { step(1); acc = 0; cool = true; e.preventDefault(); setTimeout(()=>cool=false, COOLDOWN); }
+  else if (acc < -TTH) { step(-1); acc = 0; cool = true; e.preventDefault(); setTimeout(()=>cool=false, COOLDOWN); }
+}, { passive: false });
+addEventListener('touchend', ()=>{ ts = null; acc = 0; }, { passive: false });
+</script>
+</body>
+</html>
