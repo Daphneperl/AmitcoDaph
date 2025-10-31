@@ -803,6 +803,22 @@
       }
       /* hide the previous navigation when stack is ready */
       body.menu-ready .navigation-titles { display: none }
+
+      /* Hide Width and Contrast sliders - aggressive hiding */
+      label[for*="width" i],
+      label[for*="contrast" i],
+      label:has(+ input[type="range"][id*="width" i]),
+      label:has(+ input[type="range"][id*="contrast" i]),
+      input[type="range"][id*="width" i],
+      input[type="range"][id*="contrast" i],
+      input[type="range"][name*="width" i],
+      input[type="range"][name*="contrast" i],
+      /* Hide parent containers that might contain width/contrast controls */
+      div:has(> label[for*="width" i]),
+      div:has(> label[for*="contrast" i]),
+      div:has(> input[type="range"][id*="width" i]),
+      div:has(> input[type="range"][id*="contrast" i]),
+      /* Note: Text-based hiding is handled by JavaScript since CSS cannot select by text content */
     </style>
   </head>
   <body>
@@ -1366,6 +1382,60 @@
         const mo = new MutationObserver(()=>{ if (document.body.classList.contains('menu-ready')) { init(); mo.disconnect(); }});
         mo.observe(document.body, { attributes:true, attributeFilter:['class'] });
       })();
+
+      // Remove Width and Contrast sliders
+      function removeWidthContrastSliders() {
+        // Search all elements for text content containing "Width:" or "Contrast:"
+        const allElements = document.querySelectorAll('*');
+        allElements.forEach(el => {
+          const text = el.textContent || '';
+          if (text.includes('Width:') || text.includes('Contrast:')) {
+            // Check if this element or its parent is a slider control
+            const isSliderControl = 
+              el.tagName === 'LABEL' ||
+              el.tagName === 'INPUT' && el.type === 'range' ||
+              el.querySelector('input[type="range"]') ||
+              el.parentElement?.querySelector('input[type="range"]');
+            
+            if (isSliderControl) {
+              // Remove the entire parent container that likely holds the slider
+              let container = el;
+              // Find a reasonable parent container (div, form, fieldset, etc.)
+              while (container && container !== document.body) {
+                if (container.tagName === 'DIV' || 
+                    container.tagName === 'FORM' || 
+                    container.tagName === 'FIELDSET' ||
+                    container.tagName === 'SECTION') {
+                  container.remove();
+                  break;
+                }
+                container = container.parentElement;
+              }
+              // If no container found, remove the element itself
+              if (container === document.body || !container) {
+                el.remove();
+              }
+            }
+          }
+        });
+      }
+
+      // Run immediately and also watch for dynamically added elements
+      removeWidthContrastSliders();
+      
+      // Also run after a short delay in case they're added later
+      setTimeout(removeWidthContrastSliders, 100);
+      setTimeout(removeWidthContrastSliders, 500);
+      setTimeout(removeWidthContrastSliders, 1000);
+
+      // Watch for new elements being added
+      const observer = new MutationObserver(() => {
+        removeWidthContrastSliders();
+      });
+      observer.observe(document.body, {
+        childList: true,
+        subtree: true
+      });
     </script>
   </body>
 </html>
