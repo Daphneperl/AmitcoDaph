@@ -6,14 +6,7 @@
   <title>Elastic ASCII Playground</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
   <style>
-    @font-face {
-      font-family: "SourceCodePro";
-      src: url("assets/SourceCodePro-VariableFont_wght.ttf") format("truetype");
-    }
-    @font-face {
-      font-family: "IBMPlexMono";
-      src: url("assets/IBMPlexMono-Light.ttf") format("truetype");
-    }
+    @import url('https://fonts.googleapis.com/css2?family=VT323&family=Source+Code+Pro:wght@400;600;700&family=IBM+Plex+Mono:wght@300;400&display=swap');
     
     * {
       margin: 0;
@@ -22,7 +15,7 @@
     }
     
     body {
-      font-family: "SourceCodePro", monospace;
+      font-family: "Source Code Pro", monospace;
       background: #0a0a0a;
       color: #00ff41;
       overflow: hidden;
@@ -39,8 +32,8 @@
     
     /* Input Panel */
     .input-panel {
-      width: 35%;
-      min-width: 350px;
+      width: 42%;
+      min-width: 420px;
       padding: 20px;
       background: #000;
       border-right: 2px solid #00ff41;
@@ -64,7 +57,7 @@
       background: #111;
       color: #888;
       border: 1px solid #333;
-      font-family: "SourceCodePro", monospace;
+      font-family: "Source Code Pro", monospace;
       font-size: 13px;
       cursor: pointer;
       transition: all 0.3s;
@@ -96,12 +89,23 @@
     }
     
     .keyboard-title {
-      font-size: 18px;
+      font-family: "VT323", monospace;
+      font-size: 24px;
       margin-bottom: 10px;
       color: #00ff41;
       text-shadow: 0 0 10px #00ff41;
-      font-weight: 900;
-      letter-spacing: -1.5px;
+      font-weight: 400;
+      letter-spacing: 0.5px;
+    }
+
+    .keyboard-ascii {
+      font-family: "Source Code Pro", monospace;
+      font-size: 12px;
+      line-height: 1.15;
+      color: #00ff41;
+      text-shadow: 0 0 6px rgba(0, 255, 65, 0.6);
+      margin-bottom: 20px;
+      white-space: pre;
     }
     
     .key {
@@ -227,7 +231,7 @@
       background: #000;
       color: #00ff41;
       border: 1px solid #00ff41;
-      font-family: "SourceCodePro", monospace;
+      font-family: "Source Code Pro", monospace;
       font-size: 12px;
       padding: 10px;
       resize: vertical;
@@ -251,7 +255,7 @@
       background: #00ff41;
       color: #000;
       border: none;
-      font-family: "SourceCodePro", monospace;
+      font-family: "Source Code Pro", monospace;
       font-weight: bold;
       font-size: 14px;
       cursor: pointer;
@@ -288,6 +292,56 @@
       flex: 1;
       position: relative;
       background: #000;
+    }
+
+    .zoom-controls {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      z-index: 150;
+    }
+
+    .zoom-controls button {
+      width: 44px;
+      height: 38px;
+      border: 1px solid #00ff41;
+      background: rgba(0, 0, 0, 0.85);
+      color: #00ff41;
+      font-family: "Source Code Pro", monospace;
+      font-size: 16px;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .zoom-controls button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 10px rgba(0, 255, 65, 0.6);
+    }
+
+    .zoom-controls button:active {
+      transform: scale(0.96);
+    }
+
+    .zoom-controls button.reset {
+      height: 28px;
+      font-size: 11px;
+      letter-spacing: 0.6px;
+    }
+
+    .zoom-indicator {
+      width: 44px;
+      padding: 4px 0;
+      border: 1px solid rgba(0, 255, 65, 0.25);
+      background: rgba(0, 0, 0, 0.6);
+      color: #00ff41;
+      font-family: "Source Code Pro", monospace;
+      font-size: 12px;
+      text-align: center;
+      letter-spacing: 0.5px;
     }
     
     #network-canvas {
@@ -391,6 +445,34 @@
         <span class="key">n</span>
         <span class="key">d</span>
       </div>
+      <pre class="keyboard-ascii">
+                %%%;       *                      *
+   |  %%%;     %%%~%%%;               .                     .     *
+ # |__/__%%%____/_/~%;%                           .
+     ___%%;______%%;%          .            *            *
+" " /~ %-//  \ \__%#%%_-%%;`
+   |  ~%-/_%` \ \_/%%#%%`
+#  | %%%#%     \__/%%#%%;%`,
+  "| ;%%%;`                              *                  .
+   |                            *                  (
++| #|            *        .                                          .
+  ||         .                        . .        .
+   |                .                ` ' `               *
+#  |                             .'''. ' .'''.                   *
+  "|  *           .                .. ' ' ..      .
+'  |                         *    '  '.'.'  '              .
+   |                              .'''.'.'''.
+ " |       .----------.          ' .''.'.''. '
+   |       |__________|            . . : . .
+   |_{}_{}/|__________|\{}_{}_{} _'___':'___'_ {}_{}_{}_{}_{}_{}_{}_{}
+' #| || ||/____________\|| || ||(_____________)|| || || || || || || ||
+lc'\""""""||          ||""""""""""(     )""""""""""""""""""""""""""""
+"""""     |            |            _)   (_             .^-^.  ~""~
+                         ~""~      (_______)~~"""~~     '._.'
+    ~~""~~                     ~""~                     .' '.
+                                                        '.,.'
+                                                           `'`'
+      </pre>
       
       <!-- Tab Navigation -->
       <div class="tab-container">
@@ -415,7 +497,7 @@
           
           <div id="ascii-preview" style="margin-top: 15px; display: none;">
             <label style="display: block; margin-bottom: 8px; font-size: 14px; color: #00ff41;">Converted ASCII Art:</label>
-            <div id="ascii-display" style="background: #000; color: #00ff41; border: 1px solid #00ff41; font-family: 'SourceCodePro', monospace; font-size: 8px; padding: 10px; max-height: 300px; overflow: auto; white-space: pre; line-height: 1.2; letter-spacing: 0px;"></div>
+            <div id="ascii-display" style="background: #000; color: #00ff41; border: 1px solid #00ff41; font-family: 'Source Code Pro', monospace; font-size: 8px; padding: 10px; max-height: 300px; overflow: auto; white-space: pre; line-height: 1.2; letter-spacing: 0px;"></div>
             <textarea id="converted-ascii" readonly style="display: none;"></textarea>
           </div>
         </div>
@@ -474,6 +556,13 @@ Example:
         <div>Nodes: <span id="node-count">0</span></div>
         <div>Connections: <span id="connection-count">0</span></div>
       </div>
+
+      <div class="zoom-controls" aria-label="Zoom controls">
+        <button type="button" id="zoom-in" aria-label="Zoom in">+</button>
+        <div class="zoom-indicator" id="zoom-indicator">100%</div>
+        <button type="button" id="zoom-out" aria-label="Zoom out">&minus;</button>
+        <button type="button" id="zoom-reset" class="reset" aria-label="Reset zoom">Reset</button>
+      </div>
     </div>
   </div>
 
@@ -486,7 +575,10 @@ Example:
     let time = 0;
     let currentASCII = "";
     let lockedNodes = new Set();
-    
+    let zoomLevel = 1;
+    const minZoom = 0.5;
+    const maxZoom = 2.5;
+
     // p5.js sketch
     function setup() {
       const inputPanel = document.querySelector('.input-panel');
@@ -498,9 +590,10 @@ Example:
       canvas.parent('#network-canvas');
       
       // Set text properties
-      textFont("SourceCodePro");
+      textFont("Source Code Pro");
       
       updateStats();
+      updateZoomIndicator();
     }
     
     function draw() {
@@ -509,12 +602,18 @@ Example:
       
       // Update physics
       updatePhysics();
-      
+
+      push();
+      translate(width / 2, height / 2);
+      scale(zoomLevel);
+      translate(-width / 2, -height / 2);
+
       // Draw connections
       drawConnections();
       
       // Draw nodes
       drawNodes();
+      pop();
     }
     
     function parseASCII(asciiText) {
@@ -751,12 +850,13 @@ Example:
     
     function mousePressed() {
       if (mouseButton === LEFT) {
+        const { x: worldX, y: worldY } = screenToWorld(mouseX, mouseY);
         // Find closest node
         let closestNode = null;
         let closestDistance = Infinity;
         
         for (let node of nodes) {
-          let distance = dist(mouseX, mouseY, node.x, node.y);
+          let distance = dist(worldX, worldY, node.x, node.y);
           if (distance < 20 && distance < closestDistance) {
             closestDistance = distance;
             closestNode = node;
@@ -773,9 +873,10 @@ Example:
     
     function mouseDragged() {
       if (isDragging && draggedNode) {
+        const { x: worldX, y: worldY } = screenToWorld(mouseX, mouseY);
         // Move the dragged node
-        draggedNode.x = mouseX;
-        draggedNode.y = mouseY;
+        draggedNode.x = worldX;
+        draggedNode.y = worldY;
         draggedNode.vx = 0;
         draggedNode.vy = 0;
       }
@@ -798,11 +899,12 @@ Example:
       
       if (key === 'l' || key === 'L') {
         // Toggle lock on closest node to mouse
+        const { x: worldX, y: worldY } = screenToWorld(mouseX, mouseY);
         let closestNode = null;
         let closestDistance = Infinity;
         
         for (let node of nodes) {
-          let distance = dist(mouseX, mouseY, node.x, node.y);
+          let distance = dist(worldX, worldY, node.x, node.y);
           if (distance < 50 && distance < closestDistance) {
             closestDistance = distance;
             closestNode = node;
@@ -829,6 +931,25 @@ Example:
       document.getElementById('node-count').textContent = nodes.length;
       document.getElementById('connection-count').textContent = connections.length;
     }
+
+    function screenToWorld(screenX, screenY) {
+      return {
+        x: (screenX - width / 2) / zoomLevel + width / 2,
+        y: (screenY - height / 2) / zoomLevel + height / 2
+      };
+    }
+
+    function setZoom(level) {
+      zoomLevel = Math.max(minZoom, Math.min(maxZoom, level));
+      updateZoomIndicator();
+    }
+
+    function updateZoomIndicator() {
+      const indicator = document.getElementById('zoom-indicator');
+      if (indicator) {
+        indicator.textContent = `${Math.round(zoomLevel * 100)}%`;
+      }
+    }
     
     // Image to ASCII conversion
     let uploadedImage = null;
@@ -838,6 +959,8 @@ Example:
     const asciiChars = " .:-=+*#%@";
     // Extended set for better detail
     const asciiCharsExtended = " .'`^\",:;Il!i><~+_-?][}{1)(|\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$";
+    // Edge-focused set with thin strokes
+    const asciiEdgeChars = " .'`^\",:;Il!i|\\/tfjrxnuvczXY";
     
     document.getElementById('upload-button').addEventListener('click', () => {
       document.getElementById('image-upload').click();
@@ -866,49 +989,112 @@ Example:
     document.getElementById('convert-button').addEventListener('click', () => {
       if (!uploadedImage) return;
       
-      // Use fixed default values (previously controlled by sliders)
       const width = 80;
       const contrast = 1.5;
+      const oversampleFactor = 2;
       
       // Calculate height maintaining aspect ratio
       const aspectRatio = uploadedImage.height / uploadedImage.width;
-      const height = Math.floor(width * aspectRatio * 0.5); // 0.5 because ASCII chars are taller
+      const height = Math.max(1, Math.floor(width * aspectRatio * 0.5)); // 0.5 because ASCII chars are taller
       
-      // Create canvas to sample image
+      // Use a higher resolution canvas for richer sampling
+      const sampleWidth = width * oversampleFactor;
+      const sampleHeight = Math.max(1, height * oversampleFactor);
       const canvas = document.createElement('canvas');
       const ctx = canvas.getContext('2d');
-      canvas.width = width;
-      canvas.height = height;
+      canvas.width = sampleWidth;
+      canvas.height = sampleHeight;
       
-      // Draw and scale image
-      ctx.drawImage(uploadedImage, 0, 0, width, height);
-      imageData = ctx.getImageData(0, 0, width, height);
+      // Draw and scale image at higher resolution
+      ctx.drawImage(uploadedImage, 0, 0, sampleWidth, sampleHeight);
+      const imgData = ctx.getImageData(0, 0, sampleWidth, sampleHeight);
+      imageData = imgData;
       
-      // Convert to ASCII
+      // Pre-compute brightness map
+      const pixelCount = sampleWidth * sampleHeight;
+      const brightnessMap = new Float32Array(pixelCount);
+      let minBrightness = 1;
+      let maxBrightness = 0;
+      for (let i = 0; i < pixelCount; i++) {
+        const index = i * 4;
+        const r = imgData.data[index];
+        const g = imgData.data[index + 1];
+        const b = imgData.data[index + 2];
+        const brightness = (r * 0.299 + g * 0.587 + b * 0.114) / 255;
+        brightnessMap[i] = brightness;
+        if (brightness < minBrightness) minBrightness = brightness;
+        if (brightness > maxBrightness) maxBrightness = brightness;
+      }
+
+      const brightnessRange = Math.max(0, maxBrightness - minBrightness);
+      if (brightnessRange > 0.05) {
+        for (let i = 0; i < pixelCount; i++) {
+          brightnessMap[i] = (brightnessMap[i] - minBrightness) / brightnessRange;
+        }
+      }
+      
+      // Compute gradient magnitude map (simple Sobel approximation)
+      const gradientMap = new Float32Array(pixelCount);
+      for (let y = 0; y < sampleHeight; y++) {
+        for (let x = 0; x < sampleWidth; x++) {
+          const centerIndex = y * sampleWidth + x;
+          const left = brightnessMap[y * sampleWidth + Math.max(0, x - 1)];
+          const right = brightnessMap[y * sampleWidth + Math.min(sampleWidth - 1, x + 1)];
+          const up = brightnessMap[Math.max(0, y - 1) * sampleWidth + x];
+          const down = brightnessMap[Math.min(sampleHeight - 1, y + 1) * sampleWidth + x];
+          const dx = right - left;
+          const dy = down - up;
+          gradientMap[centerIndex] = Math.sqrt(dx * dx + dy * dy);
+        }
+      }
+      
+      // Convert to ASCII with adaptive character selection
       let asciiArt = '';
+      const sampleCount = oversampleFactor * oversampleFactor;
+      const gradientThreshold = 0.18;
+      const contrastThreshold = 0.05;
       
       for (let y = 0; y < height; y++) {
+        let row = '';
         for (let x = 0; x < width; x++) {
-          const index = (y * width + x) * 4;
-          const r = imageData.data[index];
-          const g = imageData.data[index + 1];
-          const b = imageData.data[index + 2];
+          let brightnessSum = 0;
+          let brightnessSqSum = 0;
+          let gradientSum = 0;
           
-          // Calculate brightness (luminance)
-          const brightness = (r * 0.299 + g * 0.587 + b * 0.114) / 255;
-          
-          // Apply contrast
-          let adjustedBrightness = brightness;
-          if (contrast !== 1) {
-            adjustedBrightness = Math.pow(brightness, 1 / contrast);
-            adjustedBrightness = Math.max(0, Math.min(1, adjustedBrightness));
+          for (let sy = 0; sy < oversampleFactor; sy++) {
+            const sampleY = y * oversampleFactor + sy;
+            for (let sx = 0; sx < oversampleFactor; sx++) {
+              const sampleX = x * oversampleFactor + sx;
+              const idx = sampleY * sampleWidth + sampleX;
+              const br = brightnessMap[idx];
+              brightnessSum += br;
+              brightnessSqSum += br * br;
+              gradientSum += gradientMap[idx];
+            }
           }
           
-          // Map to ASCII character
-          const charIndex = Math.floor(adjustedBrightness * (asciiCharsExtended.length - 1));
-          asciiArt += asciiCharsExtended[charIndex];
+          const avgBrightness = brightnessSum / sampleCount;
+          const variance = brightnessSqSum / sampleCount - avgBrightness * avgBrightness;
+          const localContrast = Math.sqrt(Math.max(0, variance));
+          const avgGradient = gradientSum / sampleCount;
+          
+          const contrastFactor = 1 + Math.min(localContrast * 1.5, 0.6);
+          let adjustedBrightness = avgBrightness;
+          if (contrast !== 1 || contrastFactor !== 1) {
+            adjustedBrightness = Math.pow(avgBrightness, 1 / (contrast * contrastFactor));
+          }
+          adjustedBrightness = Math.max(0, Math.min(1, adjustedBrightness));
+          
+          let ramp = asciiCharsExtended;
+          if (avgGradient > gradientThreshold) {
+            ramp = asciiEdgeChars;
+          } else if (localContrast > contrastThreshold) {
+            ramp = asciiChars;
+          }
+          const charIndex = Math.floor((1 - adjustedBrightness) * (ramp.length - 1));
+          row += ramp[charIndex];
         }
-        asciiArt += '\n';
+        asciiArt += row + '\n';
       }
       
       // Store ASCII art (hidden textarea for sending)
@@ -1026,7 +1212,21 @@ Example:
       // Update stats
       updateStats();
     });
+
+    document.getElementById('zoom-in').addEventListener('click', () => {
+      setZoom(zoomLevel + 0.2);
+    });
+
+    document.getElementById('zoom-out').addEventListener('click', () => {
+      setZoom(zoomLevel - 0.2);
+    });
+
+    document.getElementById('zoom-reset').addEventListener('click', () => {
+      setZoom(1);
+    });
   </script>
 </body>
 </html>
+
+
 
